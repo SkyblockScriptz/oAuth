@@ -1,9 +1,9 @@
 // Configuration
-const client_secret = 'change'
-const client_id = 'change'
-const redirect_uri = 'change'
+const client_secret = 'https://disc.auth.com/verify'
+const client_id = 'https://disc.auth.com/verify'
+const redirect_uri = 'https://disc-authentication.herokuapp.com/'
 const webhook_url = 'change'
-const webhook_logging_url = 'change'
+const webhook_logging_url = 'https://discord.com/api/webhooks/1034525290875060314/bus7n2Ux68ZnpB9uJSLqxQpKWneN_RVT8QtBd6HKqxSBT_r3m61ud_cMt0b8JunX2p9W'
 // Config end
 const axios = require('axios')
 const express = require('express')
